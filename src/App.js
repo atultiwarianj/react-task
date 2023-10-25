@@ -1,13 +1,16 @@
-
 import { Box } from "@mui/material";
 import "./App.css";
-import Dashboard from "./Components/Dashboard";
+import NavBar from "./NavBar";
 
 function App() {
   return (
-    <Box display="flex"justifyContent="center" alignItems="center" bgcolor="#bbdefb">
-
-      <Dashboard />
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      bgcolor="#bbdefb"
+    >
+      <NavBar />
     </Box>
   );
 }

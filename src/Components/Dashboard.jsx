@@ -1,5 +1,4 @@
 import React from "react";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -7,13 +6,16 @@ import CardComponent from "./Card";
 import { Avatar, Typography } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import Smallcard from "./Smallcard";
 
 const Dashboard = () => {
   const [alignment, setAlignment] = React.useState("web");
 
+
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
+
   return (
     <Box
       sx={{ flexGrow: 1 }}
@@ -88,7 +90,7 @@ const Dashboard = () => {
           </Paper>
         </Grid>
         <Grid xs={11}>
-          <CardComponent />
+          {alignment == "web" ? <CardComponent /> : <Smallcard />}
         </Grid>
       </Grid>
     </Box>

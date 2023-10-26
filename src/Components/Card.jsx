@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Avatar, Box, Button, Paper } from "@mui/material";
+import { Avatar, Box, Button, Fab, Grid, Paper } from "@mui/material";
 import axios from "axios";
 import Paginate from "./Pagination";
 
@@ -31,13 +31,13 @@ const CardComponent = () => {
 
   // Delete function
   const handleClick = (id) => {
-    const index = data
-      .map((data) => {
-        return data.id;
-      })
-      .indexOf(id);
+    const index = data.findIndex((item) => item.id === id);
     console.log(index);
-    data.splice(index, 1);
+    if (index !== -1) {
+      const newData = [...data];
+      newData.splice(index, 1);
+      setData(newData);
+    }
   };
 
   //   Pagination function
@@ -61,47 +61,50 @@ const CardComponent = () => {
     <>
       {currentPosts.map((alldata, index) => {
         return (
-          <Paper style={{ display: "flex" }} key={index}>
-            <Paper
-              variant="outlined"
-              orientation="horizontal"
-              sx={{
-                m: "10px",
-                display: "flex",
-                width: 1000,
-                "&:hover": {
-                  boxShadow: "md",
-                  borderColor: "neutral.outlinedHoverBorder",
-                },
-              }}
-            >
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                width="150px"
+          <Grid style={{ display: "flex" }} key={index} md={12}>
+            <Grid md={6}>
+              <Paper
+                variant="outlined"
+                orientation="horizontal"
+                sx={{
+                  m: "10px",
+                  display: "flex",
+                  "&:hover": {
+                    boxShadow: "md",
+                    borderColor: "neutral.outlinedHoverBorder",
+                  },
+                }}
               >
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              </Box>
-              <CardContent>
-                <Typography
-                  level="title-lg"
-                  id="card-description"
-                  color="black"
-                  fontWeight="700"
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  width="150px"
                 >
-                  {alldata.title}
-                </Typography>
-                <Typography
-                  level="body-sm"
-                  aria-describedby="card-description"
-                  mb={1}
-                >
-                  {alldata.body}
-                </Typography>
-              </CardContent>
-            </Paper>
-            <Box
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                </Box>
+                <CardContent>
+                  <Typography
+                    level="title-lg"
+                    id="card-description"
+                    color="black"
+                    fontWeight="700"
+                  >
+                    {alldata.title}
+                  </Typography>
+                  <Typography
+                    level="body-sm"
+                    aria-describedby="card-description"
+                    mb={1}
+                  >
+                    {alldata.body}
+                  </Typography>
+                </CardContent>
+              </Paper>
+            </Grid>
+
+            <Grid
+              md={4}
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -110,21 +113,15 @@ const CardComponent = () => {
             >
               <Button
                 type="button"
-                variant="outlined"
                 onClick={() => handleClick(alldata.id)}
-                style={{
-                  color: "red",
-                  marginLeft: "10px",
-                  marginRight: "10px",
-                  paddingLeft: "0px",
-                  paddingRight: "0px",
-                  borderRadius: "50px",
-                }}
+                style={{ color: "red" }}
               >
-                x
+                <Fab style={{ color: "error" }} aria-label="delete">
+                  x
+                </Fab>
               </Button>
-            </Box>
-          </Paper>
+            </Grid>
+          </Grid>
         );
       })}
       <Box bgcolor="white">

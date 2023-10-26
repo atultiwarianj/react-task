@@ -3,13 +3,13 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions, Grid } from "@mui/material";
+import { Button, CardActionArea, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Box, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import axios from "axios";
 import Paginate from "./Pagination";
 
-const Smallcard = () => {
+const SmallCard = () => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(6);
@@ -35,13 +35,13 @@ const Smallcard = () => {
 
   // Delete function
   const handleClick = (id) => {
-    const index = data
-      .map((data) => {
-        return data.id;
-      })
-      .indexOf(id);
+    const index = data.findIndex((item) => item.id === id);
     console.log(index);
-    data.splice(index, 1);
+    if (index !== -1) {
+      const newData = [...data];
+      newData.splice(index, 1);
+      setData(newData);
+    }
   };
 
   //   Pagination function
@@ -64,7 +64,7 @@ const Smallcard = () => {
   return (
     <>
       <Grid
-        bgcolor="white"
+        bgcolor="#81d4fa"
         display="flex"
         flexWrap="wrap"
         justifyContent="center"
@@ -72,44 +72,64 @@ const Smallcard = () => {
         {currentPosts.map((alldata, index) => {
           return (
             <>
-              {/* <Paper style={{ display: "flex"}} key={index}> */}
               <Card
                 sx={{
                   display: "block",
                   maxWidth: 240,
                   minWidth: 240,
+                  height:320,
                   margin: "5px",
+                  position:"relative",
+                  m:1,
+                  bgcolor:"white"
                 }}
               >
-                <Button
+                <Button 
                   type="button"
                   onClick={() => handleClick(alldata.id)}
                   style={{
+                    right:0, position:"absolute",
                     color: "red",
                   }}
                 >
                   x
                 </Button>
 
-                <CardActionArea>
+                <CardActionArea style={{ height:180,}}>
                   <CardContent>
                     <Typography
                       gutterBottom
-                      variant="h5"
-                      component="div"
-                      style={{ textOverflow: "ellipsis" }}
+                      variant="h6"
+                      fontWeight={500}
+                      sx={{
+                        color: "black",
+                        display: "-webkit-box",
+                        overflow: "hidden",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                      }}
+                      p={2}
                     >
                       {alldata.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography
+                      sx={{
+                        color: "black",
+                        display: "-webkit-box",
+                        overflow: "hidden",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                      }}
+                    >
                       {alldata.body}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
                 <CardMedia
+                p={2}
+                style={{ height:140, }}
                   component="img"
-                  height="140"
-                  image="/static/images/cards/contemplative-reptile.jpg"
+                  image="/images/billy-huynh-W8KTS-mhFUE-unsplash.jpg"
                   alt="green iguana"
                 />
               </Card>
@@ -117,7 +137,7 @@ const Smallcard = () => {
           );
         })}
       </Grid>
-      <Box bgcolor="white">
+      <Box bgcolor="#81d4fa">
         <Paginate
           postsPerPage={postsPerPage}
           totalPosts={data.length}
@@ -131,4 +151,4 @@ const Smallcard = () => {
   );
 };
 
-export default Smallcard;
+export default SmallCard;
